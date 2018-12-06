@@ -6,6 +6,7 @@ using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
+using QPass.Crypto;
 
 namespace QPass.Entities
 {
@@ -146,41 +147,26 @@ namespace QPass.Entities
 			return result;
 		}
 
+		/// <summary>
+		/// encrypt data
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		private byte[] Encrypt(byte[] data)
 		{
-			//Set up
-			//AesEngine engine = new AesEngine();
-			RijndaelEngine engine = new RijndaelEngine(256);
-			CbcBlockCipher blockCipher = new CbcBlockCipher(engine); //CBC
-			PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(blockCipher, new Pkcs7Padding()); //Default scheme is PKCS5/PKCS7
-			KeyParameter keyParam = new KeyParameter(this._Key.SubByte(0, 32));
-			ParametersWithIV keyParamWithIV = new ParametersWithIV(keyParam, this._IV, 0, 32);
-
-			// Encrypt
-			cipher.Init(true, keyParamWithIV);
-			byte[] outputBytes = new byte[cipher.GetOutputSize(data.Length)];
-			int length = cipher.ProcessBytes(data, outputBytes, 0);
-			cipher.DoFinal(outputBytes, length); //Do the final block
-
-			//string encryptedInput = outputBytes.EncodeBase16();//Convert.ToBase64String(outputBytes);
-			return outputBytes;
+			QPDBCrypto cipher = new QPDBCrypto();
+			return cipher.Encrypt(data, this._Key, this._IV);
 		}
 
+		/// <summary>
+		/// decrypt data
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		private byte[] Decrypt(byte[] data)
 		{
-			//Set up
-			//AesEngine engine = new AesEngine();
-			RijndaelEngine engine = new RijndaelEngine(256);
-			CbcBlockCipher blockCipher = new CbcBlockCipher(engine); //CBC
-			PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(blockCipher, new Pkcs7Padding()); //Default scheme is PKCS5/PKCS7
-			KeyParameter keyParam = new KeyParameter(this._Key.SubByte(0, 32));
-			ParametersWithIV keyParamWithIV = new ParametersWithIV(keyParam, this._IV, 0, 32);
-
-			cipher.Init(false, keyParamWithIV);
-			byte[] outputBytes = new byte[cipher.GetOutputSize(data.Length)];
-			int length = cipher.ProcessBytes(data, outputBytes, 0);
-			cipher.DoFinal(outputBytes, length); //Do the final block
-			return outputBytes;
+			QPDBCrypto cipher = new QPDBCrypto();
+			return cipher.Decrypt(data, this._Key, this._IV);
 		}
 		
 		#endregion Private
@@ -546,91 +532,7 @@ namespace QPass.Entities
 		#endregion Public
 
 		#region Method
-
-		///// <summary>
-		///// Encrypt account data.
-		///// </summary>
-		///// <param name="username">Encrypt username.</param>
-		///// <param name="password">Encrypt password.</param>
-		///// <param name="note">Encrypt note.</param>
-		///// <returns></returns>
-		//[Obsolete]
-		//private bool Encrypt(bool username = true, bool password = true, bool note = true)
-		//{
-		//	if (this._IV == null || this._IV.Length != this._IVLength)
-		//	{
-		//		return false;
-		//	}
-
-		//	if (this._Encrypted == true)
-		//	{
-		//		return false;
-		//	}
-
-		//	Rabbit cipher = new Rabbit();
-		//	cipher.SetKey(this._Salt.SubByte(0, 16));
-		//	cipher.SetIV(this._IV.SubByte(0, 8));
-
-		//	if (username == true)
-		//	{
-		//		this._Username = cipher.Encrypt(this._Username).EncodeBase16();
-		//	}
-
-		//	if (password == true)
-		//	{
-		//		this._Password = cipher.Encrypt(this._Password).EncodeBase16();
-		//	}
-
-		//	if (note == true)
-		//	{
-		//		this._Note = cipher.Encrypt(this._Note).EncodeBase16();
-		//	}
-
-		//	return true;
-		//}
-
-		///// <summary>
-		///// Decrypt account data.
-		///// </summary>
-		///// <param name="username">Decrypt username.</param>
-		///// <param name="password">Decrypt password.</param>
-		///// <param name="note">Decrypt note.</param>
-		///// <returns></returns>
-		//[Obsolete]
-		//private bool Decrypt(bool username = true, bool password = true, bool note = true)
-		//{
-		//	if (this._IV == null || this._IV.Length != this._IVLength)
-		//	{
-		//		return false;
-		//	}
-
-		//	if (this._Encrypted == false)
-		//	{
-		//		return false;
-		//	}
-
-		//	Rabbit cipher = new Rabbit();
-		//	cipher.SetKey(this._Salt.SubByte(0, 16));
-		//	cipher.SetIV(this._IV.SubByte(0, 8));
-
-		//	if (username == true)
-		//	{
-		//		this._Username = cipher.Decrypt(this._Username.DecodeBase16()).GetString();
-		//	}
-
-		//	if (password == true)
-		//	{
-		//		this._Password = cipher.Decrypt(this._Password.DecodeBase16()).GetString();
-		//	}
-
-		//	if (note == true)
-		//	{
-		//		this._Note = cipher.Decrypt(this._Note.DecodeBase16()).GetString();
-		//	}
-
-		//	return true;
-		//}
-
+		
 		/// <summary>
 		/// Encrypt account data.
 		/// </summary>
