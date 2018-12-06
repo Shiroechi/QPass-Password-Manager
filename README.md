@@ -16,3 +16,6 @@ anyone that don't want to download the depedencies, i have prepared it ready in 
 
 ## Build with
 * [Visual Studio 2017 build 15.9](https://visualstudio.microsoft.com/downloads/)
+
+## Credits
+Thanks to [BouncyCastle](https://www.bouncycastle.org/) and [System.Data.SQLite](http://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki)
