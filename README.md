@@ -1,4 +1,4 @@
-# QPass
+# QPass [![CodeFactor](https://www.codefactor.io/repository/github/shiroechi/qpass-password-manager/badge)](https://www.codefactor.io/repository/github/shiroechi/qpass-password-manager)
 **This project was made for university project and used for learning only.**
 
 A simple password manager using [rinjdael algortihm](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) as the core for encrypt and decrypt.
