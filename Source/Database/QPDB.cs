@@ -112,6 +112,5 @@ namespace QPass.Database
 		}
 		
 		#endregion Public
-
 	}
 }

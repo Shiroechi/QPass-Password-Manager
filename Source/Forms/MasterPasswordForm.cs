@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using QPass.Core.Security.Hash;
+using QPass.Core.Security.KDF;
 using QPass.Core.Utilities.Extension;
 using QPass.Database;
 
@@ -13,12 +14,13 @@ namespace QPass.Forms
 		#region Member
 
 		private byte[] _Password;
+		private int _PasswordIteration = 10;
 		private bool _Validate = false;
 		private SQLiteDatabase _Database = null;
 		private byte _MinimalPasswordLength = 8;
 		private bool _NewDatabase = false;
 		private bool _PasswordRequirement = false;
-
+		
 		#endregion Member
 
 		public MasterPasswordForm()
@@ -68,11 +70,11 @@ namespace QPass.Forms
 			if (this._NewDatabase == false && this._Database != null)
 			{
 				this._Password = this.HashPassword(this.PasswordTextBox.Text.Trim());
-				this.PasswordTextBox.Text = "";
 				this._Validate = this._Database.CheckMasterPassword(this._Password);
 
 				if (this._Validate == false)
 				{
+					this.PasswordTextBox.Text = "";
 					this.ErrorMessageLabel.Visible = true;
 					this.ErrorMessageLabel.Text = "Wrong password.";
 				}
@@ -180,11 +182,15 @@ namespace QPass.Forms
 			//sha.DoFinal(this._Password, 0);
 			//return this._Password;
 
-			Blake2b sha = new Blake2b(512);
-			this._Password = new byte[sha.GetHashLength()];
-			sha.Update(password);
-			sha.DoFinal(this._Password, 0);
-			return this._Password;
+			Blake2b hash = new Blake2b(512);
+			//this._Password = new byte[sha.GetHashLength()];
+			//sha.Update(password);
+			//sha.DoFinal(this._Password, 0);
+			//return this._Password;
+
+			PBKDF2 pbkdf = new PBKDF2(hash, this._PasswordIteration);
+			return pbkdf.Derive(password.GetBytes(), null, (this._PasswordIteration) * hash.GetHashLength());
+			
 		}
 		
 		/// <summary>
@@ -193,7 +199,8 @@ namespace QPass.Forms
 		/// <returns></returns>
 		public byte[] GetMasterPassword()
 		{
-			return this._Password;
+			return this.HashPassword(this.PasswordTextBox.Text.Trim());
+			//return this._Password;
 		}
 
 		/// <summary>
@@ -213,6 +220,5 @@ namespace QPass.Forms
 		{
 			return this._PasswordRequirement;
 		}
-
 	}
 }

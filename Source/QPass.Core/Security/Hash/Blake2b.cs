@@ -48,13 +48,13 @@ namespace QPass.Core.Security.Hash
 		#region Member
 		
 		private const int ROUNDS = 12; // to use for Catenas H'
-		private const int BLOCK_LENGTH_BYTES = 128;// bytes
+		private const int BLOCK_LENGTH_BYTES = 128; // bytes
 
 		// General parameters:
 		private int digestLength = 64; // 1- 64 bytes
 		private int keyLength = 0; // 0 - 64 bytes for keyed hashing for MAC
-		private byte[] salt = null;// new byte[16];
-		private byte[] personalization = null;// new byte[16];
+		private byte[] salt = null; // new byte[16];
+		private byte[] personalization = null; // new byte[16];
 
 		/// <summary>
 		/// Key
@@ -64,9 +64,9 @@ namespace QPass.Core.Security.Hash
 		// whenever this buffer overflows, it will be processed
 		// in the Compress() function.
 		// For performance issues, long messages will not use this buffer.
-		private byte[] buffer = null;// new byte[BLOCK_LENGTH_BYTES];
-									 // Position of last inserted byte:
-		private int bufferPos = 0;// a value from 0 up to 128
+		private byte[] buffer = null; // new byte[BLOCK_LENGTH_BYTES];
+									  // Position of last inserted byte:
+		private int bufferPos = 0; // a value from 0 up to 128
 
 		private ulong[] internalState = new ulong[16]; // In the Blake2b paper it is
 													   // called: v
@@ -257,7 +257,7 @@ namespace QPass.Core.Security.Hash
 			internalState[12] = t0 ^ blake2b_IV[4];
 			internalState[13] = t1 ^ blake2b_IV[5];
 			internalState[14] = f0 ^ blake2b_IV[6];
-			internalState[15] = blake2b_IV[7];// ^ f1 with f1 = 0
+			internalState[15] = blake2b_IV[7]; // ^ f1 with f1 = 0
 		}
 
 		private void Compress(byte[] message, int messagePos)
@@ -409,7 +409,7 @@ namespace QPass.Core.Security.Hash
 				}
 
 				this.Compress(buffer, 0);
-				Array.Clear(buffer, 0, buffer.Length);// clear buffer
+				Array.Clear(buffer, 0, buffer.Length); // clear buffer
 				buffer[0] = input;
 				bufferPos = 1;
 			}
@@ -476,7 +476,7 @@ namespace QPass.Core.Security.Hash
 
 					this.Compress(buffer, 0);
 					bufferPos = 0;
-					Array.Clear(buffer, 0, buffer.Length);// clear buffer
+					Array.Clear(buffer, 0, buffer.Length); // clear buffer
 				}
 				else
 				{
@@ -532,7 +532,7 @@ namespace QPass.Core.Security.Hash
 			}
 
 			this.Compress(buffer, 0);
-			Array.Clear(buffer, 0, buffer.Length);// Holds eventually the key if input is null
+			Array.Clear(buffer, 0, buffer.Length); // Holds eventually the key if input is null
 			Array.Clear(internalState, 0, internalState.Length);
 
 			for (int i = 0; i < chainValue.Length && (i * 8 < digestLength); i++)

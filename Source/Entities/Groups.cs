@@ -111,6 +111,5 @@ namespace QPass.Entities
 		}
 
 		#endregion Public
-
 	}
 }

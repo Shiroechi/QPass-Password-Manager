@@ -131,6 +131,5 @@ namespace QPass.Core.Utilities.Extension
 		{
 			return long.Parse(str);
 		}
-
 	}
 }

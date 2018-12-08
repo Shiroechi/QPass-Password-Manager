@@ -234,7 +234,6 @@ namespace QPass.Database
 		/// <param name="MasterPassword"></param>
 		public void CreateQPassDatabase(byte[] MasterPassword)
 		{
-
 			string query = "CREATE TABLE MASTER ( " +
 						   "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
 						   "PASSWORD BLOB NOT NULL)";
@@ -268,7 +267,6 @@ namespace QPass.Database
 					"FOREIGN KEY (GROUPID) REFERENCES GROUPS(ID) " +
 					")";
 			this.CreateTable(query);
-
 		}
 
 		#endregion Public
@@ -285,7 +283,10 @@ namespace QPass.Database
 			{
 				throw new Exception("Database not connected.");
 			}
-
+			if (password == null)
+			{
+				MessageBox.Show("pasword null");
+			}
 			try
 			{
 				using (SQLiteCommand cmd = this._Connection.CreateCommand())
@@ -298,8 +299,8 @@ namespace QPass.Database
 			}
 			catch (SQLiteException e)
 			{
-				//MessageBox.Show(e.Message);
-				throw new SQLiteException(e.Message);
+				MessageBox.Show(e.Message);
+				//throw new SQLiteException(e.Message);
 			}
 		}
 		
