@@ -94,6 +94,5 @@ namespace QPass.Crypto
 		}
 
 		#endregion Public
-
 	}
 }

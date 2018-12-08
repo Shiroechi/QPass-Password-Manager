@@ -84,19 +84,9 @@ namespace QPass.Forms
 				
 				if (e.KeyCode == Keys.S)
 				{
-
+					this.SaveToolStripMenuItem.PerformClick();
 				}
-
-				if (e.KeyCode == Keys.U)
-				{
-
-				}
-
-				if (e.KeyCode == Keys.P)
-				{
-
-				}
-
+				
 				if (e.KeyCode == Keys.F4)
 				{
 					this.CloseToolStripMenuItem.PerformClick();
@@ -402,6 +392,5 @@ namespace QPass.Forms
 		}
 
 		#endregion Account Table
-
 	}
 }

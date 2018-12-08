@@ -575,6 +575,5 @@ namespace QPass.Entities
 		}
 
 		#endregion Method
-
 	}
 }

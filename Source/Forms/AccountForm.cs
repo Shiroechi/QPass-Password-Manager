@@ -175,11 +175,10 @@ namespace QPass.Forms
 		}
 
 		#endregion Form Event
-
 	}
 
 	public enum PasswordStatus
 	{
 		Show, Hide
-	};
+	}
 }

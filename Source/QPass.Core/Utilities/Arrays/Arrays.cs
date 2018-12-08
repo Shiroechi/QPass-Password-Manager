@@ -719,6 +719,5 @@ namespace QPass.Core.Utilities.Arrays
 
             return result;
         }
-
     }
 }
