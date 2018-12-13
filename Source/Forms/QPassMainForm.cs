@@ -266,8 +266,11 @@ namespace QPass.Forms
 		/// <param name="e"></param>
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//save database
-			this._Database.ExecuteQuery("vacuum");
+			if (this._Database != null)
+			{
+				//save database
+				this._Database.ExecuteQuery("vacuum");
+			}
 		}
 
 		/// <summary>
@@ -340,6 +343,7 @@ namespace QPass.Forms
 		{
 			using (FontDialog font = new FontDialog())
 			{
+				font.Font = this.Font;
 				font.ShowDialog(this);
 				this.Font = font.Font;
 				Properties.Settings.Default.Font = font.Font;
@@ -380,6 +384,7 @@ namespace QPass.Forms
 
 		private void AccountTable_KeyDown(object sender, KeyEventArgs e)
 		{
+			//delete account
 			if (e.KeyCode == Keys.Delete && this.AccountTable.CurrentRow != null)
 			{
 				//delete selected account
@@ -389,8 +394,66 @@ namespace QPass.Forms
 				//this._Database.DeleteAccount(id);
 				//this.AccountTable.Rows.Remove(this.AccountTable.CurrentRow);
 			}
+
+			//edit account
+			if (e.KeyCode == Keys.Enter && this.AccountTable.CurrentRow != null)
+			{
+				if (this.AccountTable.CurrentRow != null)
+				{
+					//get id from selected cell or row in datagridview row
+					int id = (int)this.AccountTable.CurrentRow.Cells[0].Value.ToString().ToInteger();
+					using (Form form = new AccountForm(id, this._Database, this._MasterPassword))
+					{
+						form.ShowDialog(this);
+						this._Database.LoadAccount(ref this.AccountTable);
+					}
+				}
+			}
+		}
+		
+		private void AccountTable_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				this.AccountContextMenuStrip.Show(this.PointToScreen(e.Location));
+			}
 		}
 
 		#endregion Account Table
+
+		#region Account Contex Menu Strip
+
+		private void AddToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.AddAccountToolStripMenuItem.PerformClick();
+		}
+
+		private void EditToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (this.AccountTable.CurrentRow == null)
+			{
+				return;
+			}
+
+			int id = (int)this.AccountTable.CurrentRow.Cells[0].Value.ToString().ToInteger();
+
+			using (Form form = new AccountForm(id, this._Database, this._MasterPassword))
+			{
+				form.ShowDialog(this);
+				this._Database.LoadAccount(ref this.AccountTable);
+			}
+		}
+
+		private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (this.AccountTable.CurrentRow == null)
+			{
+				return;
+			}
+
+			this.DeleteAccountToolStripMenuItem.PerformClick();
+		}
+
+		#endregion Account Contex Menu Strip
 	}
 }

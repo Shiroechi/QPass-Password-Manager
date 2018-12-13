@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.AccountTable = new System.Windows.Forms.DataGridView();
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
@@ -43,19 +44,24 @@
 			this.AddAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.DeleteAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ViewUsernameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ViewPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ViewAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.GeneratePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ViewUsernameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ViewPasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ViewAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AccountContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AccountTable)).BeginInit();
 			this.MenuStrip.SuspendLayout();
+			this.AccountContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripContainer1
@@ -93,6 +99,7 @@
 			this.AccountTable.TabIndex = 0;
 			this.AccountTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AccountTable_CellDoubleClick);
 			this.AccountTable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AccountTable_KeyDown);
+			this.AccountTable.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AccountTable_MouseDown);
 			// 
 			// MenuStrip
 			// 
@@ -210,26 +217,6 @@
 			this.ViewToolStripMenuItem.Size = new System.Drawing.Size(80, 23);
 			this.ViewToolStripMenuItem.Text = "View";
 			// 
-			// ViewUsernameToolStripMenuItem
-			// 
-			this.ViewUsernameToolStripMenuItem.Name = "ViewUsernameToolStripMenuItem";
-			this.ViewUsernameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-			this.ViewUsernameToolStripMenuItem.Size = new System.Drawing.Size(228, 24);
-			this.ViewUsernameToolStripMenuItem.Text = "View username";
-			// 
-			// ViewPasswordToolStripMenuItem
-			// 
-			this.ViewPasswordToolStripMenuItem.Name = "ViewPasswordToolStripMenuItem";
-			this.ViewPasswordToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-			this.ViewPasswordToolStripMenuItem.Size = new System.Drawing.Size(228, 24);
-			this.ViewPasswordToolStripMenuItem.Text = "View password";
-			// 
-			// ViewAllToolStripMenuItem
-			// 
-			this.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem";
-			this.ViewAllToolStripMenuItem.Size = new System.Drawing.Size(228, 24);
-			this.ViewAllToolStripMenuItem.Text = "View all";
-			// 
 			// ToolsToolStripMenuItem
 			// 
 			this.ToolsToolStripMenuItem.AutoSize = false;
@@ -266,9 +253,60 @@
 			// AboutToolStripMenuItem
 			// 
 			this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-			this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+			this.AboutToolStripMenuItem.Size = new System.Drawing.Size(116, 24);
 			this.AboutToolStripMenuItem.Text = "About";
 			this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+			// 
+			// ViewUsernameToolStripMenuItem
+			// 
+			this.ViewUsernameToolStripMenuItem.Name = "ViewUsernameToolStripMenuItem";
+			this.ViewUsernameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+			this.ViewUsernameToolStripMenuItem.Size = new System.Drawing.Size(228, 24);
+			this.ViewUsernameToolStripMenuItem.Text = "View username";
+			// 
+			// ViewPasswordToolStripMenuItem
+			// 
+			this.ViewPasswordToolStripMenuItem.Name = "ViewPasswordToolStripMenuItem";
+			this.ViewPasswordToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+			this.ViewPasswordToolStripMenuItem.Size = new System.Drawing.Size(228, 24);
+			this.ViewPasswordToolStripMenuItem.Text = "View password";
+			// 
+			// ViewAllToolStripMenuItem
+			// 
+			this.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem";
+			this.ViewAllToolStripMenuItem.Size = new System.Drawing.Size(228, 24);
+			this.ViewAllToolStripMenuItem.Text = "View all";
+			// 
+			// AccountContextMenuStrip
+			// 
+			this.AccountContextMenuStrip.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AccountContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem,
+            this.editToolStripMenuItem1,
+            this.deleteToolStripMenuItem});
+			this.AccountContextMenuStrip.Name = "AccountContextMenuStrip";
+			this.AccountContextMenuStrip.Size = new System.Drawing.Size(122, 76);
+			// 
+			// addToolStripMenuItem
+			// 
+			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(121, 24);
+			this.addToolStripMenuItem.Text = "Add";
+			this.addToolStripMenuItem.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
+			// 
+			// editToolStripMenuItem1
+			// 
+			this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
+			this.editToolStripMenuItem1.Size = new System.Drawing.Size(121, 24);
+			this.editToolStripMenuItem1.Text = "Edit";
+			this.editToolStripMenuItem1.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
+			// 
+			// deleteToolStripMenuItem
+			// 
+			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(121, 24);
+			this.deleteToolStripMenuItem.Text = "Delete";
+			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
 			// 
 			// QPassMainForm
 			// 
@@ -293,6 +331,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.AccountTable)).EndInit();
 			this.MenuStrip.ResumeLayout(false);
 			this.MenuStrip.PerformLayout();
+			this.AccountContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -322,5 +361,9 @@
 		private System.Windows.Forms.ToolStripMenuItem ViewAllToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CloseToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem DeleteAccountToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip AccountContextMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 	}
 }

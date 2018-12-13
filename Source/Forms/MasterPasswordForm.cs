@@ -190,7 +190,6 @@ namespace QPass.Forms
 
 			PBKDF2 pbkdf = new PBKDF2(hash, this._PasswordIteration);
 			return pbkdf.Derive(password.GetBytes(), null, (this._PasswordIteration) * hash.GetHashLength());
-			
 		}
 		
 		/// <summary>

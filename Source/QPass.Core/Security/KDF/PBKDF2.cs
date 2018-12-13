@@ -231,6 +231,5 @@ namespace Akashic.Security.KDF
 		}
 
 		#endregion Public
-
 	}
 }
