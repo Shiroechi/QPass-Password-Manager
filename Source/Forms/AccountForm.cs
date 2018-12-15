@@ -78,8 +78,10 @@ namespace QPass.Forms
 			//load font from setting
 			this.Font = Properties.Settings.Default.Font;
 
-			//load picture for password show
-			this.PasswordStatusButton.Image = Properties.Resources.icons8_eye_hide_32;
+			//hide password by default
+			this.PasswordTextBox.PasswordChar = '*';
+			this._PasswordStatus = PasswordStatus.Hide;
+			this.PasswordStatusButton.Image = Properties.Resources.icons8_eye_32;
 		}
 		
 		private void SaveButton_Click(object sender, EventArgs e)

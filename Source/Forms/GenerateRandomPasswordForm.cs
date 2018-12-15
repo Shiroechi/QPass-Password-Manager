@@ -111,7 +111,7 @@ namespace QPass.Forms
 			{
 				result.Append(chars[b % (chars.Length)]);
 			}
-			this.ResultTextBox.Text = result.ToString();
+			this.ResultTextBox.Text = result.ToString().Trim();
 		}
 	}
 }

@@ -6,12 +6,13 @@ using QPass.Database;
 
 namespace QPass.Entities
 {
-	class FileManager
+	public class FileManager
 	{
 		#region Member
 
 		private string _Location; 
-		private byte[] _File; //QPDB
+		private QPDB _QPDBFile; //QPDB file
+		private string _Extension = ".QPDB";
 
 		#endregion Member
 
@@ -25,24 +26,12 @@ namespace QPass.Entities
 		{
 			this._Location = location;
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="location"></param>
-		/// <param name="file"></param>
-		protected FileManager(string location, byte[] file)
-		{
-			this._Location = location;
-			this._File = file;
-		}
-
+		
 		/// <summary>
 		/// Destructor.
 		/// </summary>
 		~FileManager()
 		{
-			Array.Clear(this._File, 0, this._File.Length);
 			this._Location = string.Empty;
 		}
 
@@ -50,72 +39,99 @@ namespace QPass.Entities
 
 		#region Protected
 
-		protected void Save()
+		/// <summary>
+		/// write file to hard disk
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="data"></param>
+		public void Write(string filename, byte[] data)
 		{
-			using (FileStream fs = new FileStream(this._Location, FileMode.Create))
+			using (FileStream fs = new FileStream(filename, FileMode.Create))
 			{
 				using (BinaryWriter bw = new BinaryWriter(fs))
 				{
-					bw.Write(this._File);
+					bw.Write(data);
 					fs.Close();
 					bw.Close();
 				}
 			}
 		}
 
-		protected void Load()
+		/// <summary>
+		/// read file from hard disk
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public byte[] Read(string filename)
 		{
-			if (File.Exists(this._Location) == false)
+			if (File.Exists(filename) == false)
 			{
 				throw new Exception("File not exist.");
 			}
 
-			using (FileStream fs = new FileStream(this._Location, FileMode.Open))
+			byte[] buffer;
+
+			using (FileStream fs = new FileStream(filename, FileMode.Open))
 			{
 				using (BinaryReader br = new BinaryReader(fs))
 				{
-					this._File = br.ReadBytes((int)br.BaseStream.Length);
+					buffer = br.ReadBytes((int)br.BaseStream.Length);
 					fs.Close();
 					br.Close();
 				}
 			}
+
+			return buffer;
 		}
-		
+
+		/// <summary>
+		/// save file
+		/// </summary>
+		protected void Save()
+		{
+			byte[] buffer = Core.Utilities.Convert.Objects.Serialize(this._QPDBFile);
+			this.Write(this._Location, buffer);
+			System.Array.Clear(buffer, 0, buffer.Length);
+		}
+
+		/// <summary>
+		/// load file
+		/// </summary>
+		protected void Load()
+		{
+			//read or load QPDB file
+			byte[] buffer = this.Read(this._Location);
+			this._QPDBFile = (QPDB)QPass.Core.Utilities.Convert.Objects.Deserialize(buffer);
+
+			//delete QPDB file in hard disk
+			File.Delete(this._Location);
+
+			System.Array.Clear(buffer, 0, buffer.Length);
+		}
+
 		#endregion Protected
 
 		#region Public
 
-		public void SaveData(QPDB qpdb)
+		public void SetMasterPassword(byte[] password)
 		{
-			if (qpdb == null)
-			{
-				throw new Exception("QPDB can't be null.");
-			}
-
-			try
-			{
-				this.SaveData(qpdb.GetBytes());
-			}
-			catch
-			{
-				throw new Exception("QPDB can't be serialize.");
-			}
+			this._QPDBFile.SetMasterPassword(password);
 		}
 
-		public void SaveData(byte[] file)
+		public bool ValidMasterPassword(byte[] password)
 		{
-			if (file == null || file.Length == 0)
+			bool valid = true;
+			byte[] temp = this._QPDBFile.GetMasterPassword();
+
+			for (int i = 0; i < password.Length; i++)
 			{
-				throw new Exception("File can't empty.");
+				if (password[i] != temp[i])
+				{
+					valid = false;
+					break;
+				}
 			}
-
-			this._File = file;
-			this.Save();
-		}
-
-		public void LoadData()
-		{
-			this.Load();
+			return valid;
 		}
 
 		#endregion Public

@@ -9,7 +9,7 @@ namespace QPass.Database
 	/// QPass Database
 	/// </summary>
 	[Serializable]
-	class QPDB
+	public class QPDB
 	{
 		#region Member
 
@@ -17,6 +17,8 @@ namespace QPass.Database
 		private byte[] _Checksum;
 		private byte[] _MasterPassword;
 		private byte[] _DatabaseFile;
+		private short _Version = 1;
+		private string _Extension = "QPDB";
 
 		#endregion Member
 
