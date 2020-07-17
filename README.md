@@ -14,6 +14,10 @@ for sqlite, you need copy SQLite.Interop.dll into output folder.
 
 anyone that don't want to download the depedencies, i have prepared it ready in [Library folder](/Library)
 
+### Issue
+**Update 2020**
+There is a small problem with the master password input, sometimes when opening and closing the database it will make the master password correctly entered but considered wrong by the program, this is actually an bug and can be overcome by restarting the program.
+
 ## Build with
 * [Visual Studio 2017 build 15.9](https://visualstudio.microsoft.com/downloads/)
 
