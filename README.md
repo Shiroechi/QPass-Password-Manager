@@ -24,3 +24,6 @@ There is a small problem with the master password input, sometimes when opening 
 
 ## Credits
 Thanks to [BouncyCastle](https://www.bouncycastle.org/) and [System.Data.SQLite](http://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki)
+
+# Donation
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X81SP2L)
